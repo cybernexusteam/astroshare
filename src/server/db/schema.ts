@@ -2,14 +2,16 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { sql } from "drizzle-orm";
+import { int } from "drizzle-orm/mysql-core";
 import {
   index,
   pgTableCreator,
   serial,
   timestamp,
   varchar,
+  json,
+  integer,
 } from "drizzle-orm/pg-core";
-import { string } from "zod";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -28,6 +30,8 @@ export const posts = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     description:varchar("description", { length: 512 }),
+    files: json("file_list").default([]),
+    likes: integer("likes").default(0),
     updatedAt: timestamp("updatedAt"),
   },
   (example) => ({
